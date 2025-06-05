@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matrix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            color: green;
+            background-color: black;
+            overflow: hidden;
+            font-family: "Orbitron", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 40px);
+            width: 100vw;
+            box-sizing: border-box;
+            padding-left: 2rem;
+        }
+        .grid-item {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded" , function(){
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+            const viewportWidth = window.innerWidth;
+            const columnSize = 40;
+            let numberOfColumns = Math.floor(viewportWidth / columnSize);
+            let gridContainer = document.querySelector(".grid-container");
+            for(let i = 0; i < numberOfColumns; i++){
+                gridContainer.innerHTML += '<div class="grid-item"></div>';
+            }
+            let allGridItems = document.querySelectorAll(".grid-item");
+            const chars = ['!', '@', '#', '$', '%', '^', '&', '*', '~', '/' , '+'];
+            //const chars = [1,0];
+            (async () => {
+                while(true){
+                    let randColumn = Math.floor(Math.random() * allGridItems.length) + 0;
+                    let randChar = Math.floor(Math.random() * chars.length) + 0;
+                    allGridItems[randColumn].innerHTML = `<span>${chars[randChar]}</span>` + allGridItems[randColumn].innerHTML;
+                    await sleep(10);
+                }
+            })();
+        })        
+    </script>
+</body>
+</html>
