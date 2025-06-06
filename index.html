@@ -48,13 +48,24 @@
                 gridContainer.innerHTML += '<div class="grid-item"></div>';
             }
             let allGridItems = document.querySelectorAll(".grid-item");
-            const chars = ['!', '@', '#', '$', '%', '^', '&', '*', '~', '/' , '+'];
+            const chars = ['!', '@', '#', '$', '%', '^', '&', '*', '~', '/' , '+', '&nbsp;'];
             //const chars = [1,0];
+            let startSpaces = 0;
+            let startSpaceCol;
             (async () => {
                 while(true){
-                    let randColumn = Math.floor(Math.random() * allGridItems.length) + 0;
-                    let randChar = Math.floor(Math.random() * chars.length) + 0;
-                    allGridItems[randColumn].innerHTML = `<span>${chars[randChar]}</span>` + allGridItems[randColumn].innerHTML;
+                    let randColumn = Math.floor(Math.random() * allGridItems.length);
+                    let randChar = Math.floor(Math.random() * chars.length);
+                    if(chars[randChar] == '&nbsp;' && Math.round(Math.random()) == 1 && startSpaces <= 0){
+                        startSpaces = Math.floor((Math.random() * 5) + 3);
+                        startSpaceCol = randColumn;
+                    } else if (startSpaces > 0){
+                        allGridItems[startSpaceCol].innerHTML = "<span>&nbsp;</span>" + allGridItems[startSpaceCol].innerHTML;
+                        await sleep(30);
+                        startSpaces--;
+                    } else {
+                        allGridItems[randColumn].innerHTML = `<span>${chars[randChar]}</span>` + allGridItems[randColumn].innerHTML;
+                    }
                     await sleep(10);
                 }
             })();
